@@ -8,8 +8,6 @@
     <style>
         body {
             background: rgba(0, 0, 0, 0.9);
-            margin: 0;
-            padding: 0;
         }
 
         form {
@@ -75,27 +73,6 @@
             color: #333333;
             text-decoration: none;
         }
-
-        #navi {
-            position: fixed;
-            width: 100vw;
-            z-index: 2;
-            margin: 8px;
-        }
-
-        #loading {
-            display: none;
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            line-height: 100vh;
-            text-align: center;
-            top: 0;
-            opacity: 0.9;
-            background: white;
-            color: gray;
-            font-size: xxx-large;
-        }
     </style>
 </head>
 
@@ -104,10 +81,9 @@
     <form id="form" ref='uploadForm' id='uploadForm' action='./upload' method='post' encType="multipart/form-data">
         <input id="file" type="file" name="sample" multiple>
         <p id="note">Drag your files here or click in this area.</p>
-        <button type="submit">Upload</button>
+        <button id="submit" type="submit">Upload</button>
         <div id="result"></div>
     </form>
-    <div id="loading">上傳中</div>
 
     <script>
         document.getElementById('file').onchange = function () {
@@ -117,27 +93,36 @@
         var form = document.getElementById('form');
         form.onsubmit = function () {
             var formData = new FormData(form);
-
             formData.append('file', file);
-
-            var loading = document.getElementById('loading')
-            loading.style.display = 'block'
+            
+            var submit =  document.getElementById('submit')
+            submit.disabled = true
+            var note = document.getElementById('note')
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', form.getAttribute('action'), true);
             xhr.onload = function (e) {
                 if (this.status == 200) {
                     document.getElementById('file').value = '';
-                    document.getElementById('note').innerText = 'Drag your files here or click in this area.'
                     var result = JSON.parse(this.responseText);
                     var li = ''
                     result.forEach(element => {
                         li += ('<li><a href="./files/' + element.name + '">' + element.name + '</a></li>')
                     });
                     document.getElementById('result').innerHTML = '<ol>' + li + '</ol>'
-                    loading.style.display = 'none'
                 }
             };
+            xhr.upload.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    submit.innerText = "Waiting";
+                    note.innerText = "Uploading...(" + Math.round(event.loaded * 100 / event.total)  + "%)"
+                }
+            };
+            xhr.onloadend = function (){
+                submit.disabled = false
+                submit.innerText = 'Upload'
+                note.innerText = 'Drag your files here or click in this area.'
+            }
             xhr.send(formData);
 
             return false;

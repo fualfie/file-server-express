@@ -44,7 +44,7 @@ app.post('/upload', function (req, res) {
             } else {
                 result.push({ name: sample.name, success: true, error: false })
                 // console.log(randomName(6, true), sample.name, sample.size + ' bytes')
-                console.log('==Upload==', sample.name, sample.size > (1024 * 1024) ? Math.round(sample.size * 1000 / (1024 * 1024)) / 1000 + ' MB' : Math.round(sample.size * 1000 / 1024) / 1000 + ' KB')
+                console.log('【Upload】', sample.name, sample.size > (1024 * 1024) ? Math.round(sample.size * 1000 / (1024 * 1024)) / 1000 + ' MB' : Math.round(sample.size * 1000 / 1024) / 1000 + ' KB')
             }
             if (result.length == samples.length) res.json(result);
         });

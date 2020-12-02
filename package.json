@@ -12,8 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.7-alpha.3",
-    "express-http-proxy": "^1.6.0"
+    "express-fileupload": "^1.1.7-alpha.3"
   },
   "bin": "server.js",
   "pkg": {

@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Center</title>
+    <title>Upload</title>
     <style>
         body {
             background: rgba(0, 0, 0, 0.9);
+            color: #ffffff;
         }
 
         form {
@@ -42,42 +43,46 @@
 
         form button {
             margin: 0;
-            color: #fff;
-            background: #16a085;
-            border: none;
             width: 368px;
             height: 35px;
             margin-top: -20px;
             margin-left: -4px;
+        }
+
+        a {
+            color: #ffffff;
+        }
+
+        button a {
+            text-decoration: none;
+        }
+
+        button {
+            color: #ffffff;
+            background: #16a085;
+            border: none;
+            padding-top: 5px;
             border-radius: 4px;
             border-bottom: 4px solid #117A60;
             transition: all .2s ease;
             outline: none;
         }
 
-        form button:hover {
+        button a:hover,
+        button:hover {
             background: #149174;
             color: #0C5645;
         }
 
-        form button:active {
+        button:active {
             border: 0;
-        }
-
-        div,
-        a {
-            color: #ffffff;
-        }
-
-        button a {
-            color: #333333;
-            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
-    <div id="navi"><button><a href="./files.html">DOWNLOAD</a></button></div>
+    <div id="navi" style="display: flex; justify-content: space-between;"><button><a
+                href="./download.html">Download</a></button><button><a href="./logout.html">Logout</a></button></div>
     <form id="form" ref='uploadForm' id='uploadForm' action='./upload' method='post' encType="multipart/form-data">
         <input id="file" type="file" name="sample" multiple>
         <p id="note">Drag your files here or click in this area.</p>
@@ -94,8 +99,8 @@
         form.onsubmit = function () {
             var formData = new FormData(form);
             formData.append('file', file);
-            
-            var submit =  document.getElementById('submit')
+
+            var submit = document.getElementById('submit')
             submit.disabled = true
             var note = document.getElementById('note')
 
@@ -115,10 +120,10 @@
             xhr.upload.onprogress = function (event) {
                 if (event.lengthComputable) {
                     submit.innerText = "Waiting";
-                    note.innerText = "Uploading...(" + Math.round(event.loaded * 100 / event.total)  + "%)"
+                    note.innerText = "Uploading...(" + Math.round(event.loaded * 100 / event.total) + "%)"
                 }
             };
-            xhr.onloadend = function (){
+            xhr.onloadend = function () {
                 submit.disabled = false
                 submit.innerText = 'Upload'
                 note.innerText = 'Drag your files here or click in this area.'

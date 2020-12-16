@@ -9,3 +9,4 @@ npm install forever -g
 forever --minUptime 5000 --spinSleepTime 3000 server.js
 
 pkg -t win package.json
+pkg -t node8-linux-x86 package.json

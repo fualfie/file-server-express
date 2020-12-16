@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 
-const port = process.env.port|| 5566
+const port = process.env.port || 5566
 const account = process.env.account || 'admin'
 const password = process.env.password || 'admin'
 
@@ -44,7 +44,7 @@ app.get('/logout.html', (req, res) => {
     res.redirect('/login.html')
 })
 app.post('/login', (req, res) => {
-    if (req.body.account == account  && req.body.password == password) {
+    if (req.body.account == account && req.body.password == password) {
         req.session.user = {
             account: req.body.account,
             password: req.body.password
@@ -111,4 +111,4 @@ app.all('/list', (req, res) => {
 
 app.use('/files', express.static(filesDir));
 
-app.listen(port, () => console.log(`Server start at http://localhost:${port}`)).on('error', console.error)
+app.listen(port, '0.0.0.0', () => console.log(`Server start at http://localhost:${port}`)).on('error', console.error)
